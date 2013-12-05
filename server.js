@@ -78,7 +78,7 @@ var num = 1;
 my_http.createServer(function(request,response){ 
     
     console.log("called to my server")
-    response.write("Hello heruku");
+    response.write("Hello heruku again with db");
          response.end();
     
     
