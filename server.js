@@ -77,7 +77,7 @@ my_http = require("http");
 // var num = 1;
 my_http.createServer(function(request,response){ 
     
-    
+    console.log("called to my server")
     response.write("Hello heruku");
          response.end();
     
