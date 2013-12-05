@@ -80,32 +80,32 @@ my_http.createServer(function(request,response){
     console.log("called to my server")
     response.write("Hello heruku again with db");
          response.end();
-    
+    saveToDb("udi");
     
  
-     if(request.method == 'POST') {
-        processPost(request, response, function() {
-            console.log(response.post);
-            console.log('got response');
-            Use response.post here
+    //  if(request.method == 'POST') {
+    //     processPost(request, response, function() {
+    //         console.log(response.post);
+    //         console.log('got response');
+    //         Use response.post here
 
-            response.writeHead(200, "OK", {'Content-Type': 'text/plain'});
-            response.write("Hello World post");
-            response.end();
-        });
-    } else {
-        response.writeHead(200, "OK", {'Content-Type': 'text/plain'});
-         var queryObject = url.parse(request.url,true).query;
-         console.log(queryObject.name);
-         if (queryObject.name !== undefined)
-         {
-              saveToDb(queryObject.name);
-         }
+    //         response.writeHead(200, "OK", {'Content-Type': 'text/plain'});
+    //         response.write("Hello World post");
+    //         response.end();
+    //     });
+    // } else {
+    //     response.writeHead(200, "OK", {'Content-Type': 'text/plain'});
+    //      var queryObject = url.parse(request.url,true).query;
+    //      console.log(queryObject.name);
+    //      if (queryObject.name !== undefined)
+    //      {
+    //           saveToDb(queryObject.name);
+    //      }
         
-        console.log('got response get' + num);
-        response.write("Hello" + queryObject.name);
-        response.end();
-        num++;
-    }
+    //     console.log('got response get' + num);
+    //     response.write("Hello" + queryObject.name);
+    //     response.end();
+    //     num++;
+    // }
 }).listen(process.env.PORT);  
 sys.puts("Server Running on 8080");
