@@ -107,5 +107,5 @@ my_http.createServer(function(request,response){
     //     response.end();
     //     num++;
   //  }
-}).listen(8080);  
+}).listen(process.env.PORT);  
 sys.puts("Server Running on 8080");
