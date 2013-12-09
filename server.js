@@ -141,7 +141,7 @@ my_http.createServer(function(request,response){
            
 
             response.writeHead(200, "OK", {'Content-Type': 'text/plain'});
-            response.write("Hello World post" + response.post);
+            response.write("Hello World post" + response.post.d);
             response.end();
         });
   }
