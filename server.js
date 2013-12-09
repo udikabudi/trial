@@ -121,12 +121,12 @@ function saveQuestionsToDb (callback)
 // });
 
 
-
+var parser = require("./totParser.js");
 var sys = require("sys"),  
 my_http = require("http"); 
 var url = require('url') ;
 var querystring = require('querystring');
-var num = 1;
+
 my_http.createServer(function(request,response){ 
     
     console.log("called to my server");
@@ -155,50 +155,64 @@ my_http.createServer(function(request,response){
         console.log("query is - " + queryData.d);
         if (queryData.d !== undefined)
         {
-            if (queryData.d == "intialize")
-            {
-                saveUsersToDb();
-                saveQuestionsToDb(function (){
-                  //save tournament
-                  //_questions, _usersEmails, _name, callback
-                  var questions = [question1, question2, question3];
-                  var usersEmails = ["udizohar84@gmail.com", "tomer@gmail.com", "arnon@gmail.com", "tom@gmail.com", "john@gmail.com" ];
-                  dbHelper.saveTournamentToDb(questions,usersEmails, "starters", function(id, error){
-                      if (error)
-                      {
-                          response.write("error saving tournament");
-                          response.end();
-                          console.log("error saving tournament");
-                      }
-                      else
-                      {
-                          response.write("tournament saved" + " " + id);
-                          response.end();
-                          console.log("tournament saved" + " " + id);
-                      }
-                  } );
-                });
+            parser.parse(queryData.d, function(responseData){
+                var responseDataStr = var myJSONText = JSON.stringify(responseData);
+                response.write(responseDataStr);
+                response.end();
+                console.log("response sent from get" + " " + responseData.ok);
+            });
+            
+            
+            
+            
+            
+            
+            
+            
+            // if (queryData.d == "intialize")
+            // {
+            //     saveUsersToDb();
+            //     saveQuestionsToDb(function (){
+            //       //save tournament
+            //       //_questions, _usersEmails, _name, callback
+            //       var questions = [question1, question2, question3];
+            //       var usersEmails = ["udizohar84@gmail.com", "tomer@gmail.com", "arnon@gmail.com", "tom@gmail.com", "john@gmail.com" ];
+            //       dbHelper.saveTournamentToDb(questions,usersEmails, "starters", function(id, error){
+            //           if (error)
+            //           {
+            //               response.write("error saving tournament");
+            //               response.end();
+            //               console.log("error saving tournament");
+            //           }
+            //           else
+            //           {
+            //               response.write("tournament saved" + " " + id);
+            //               response.end();
+            //               console.log("tournament saved" + " " + id);
+            //           }
+            //       } );
+            //     });
 
-            }
-            else
-            {
-              dbHelper.getTournamentFromDb(queryData.d, function (tournament,err){
-                  if (err)
-                  {
-                      response.write("cant get tournament" + " " + tournament);
-                      response.end();
-                      console.log("error in query");
+            // }
+            // else
+            // {
+            //   dbHelper.getTournamentFromDb(queryData.d, function (tournament,err){
+            //       if (err)
+            //       {
+            //           response.write("cant get tournament" + " " + tournament);
+            //           response.end();
+            //           console.log("error in query");
                        
-                  }
-                  else
-                  {
-                        response.write("tournament name is" + " " + tournament.name);
-                        response.end();
-                        console.log("query success");
+            //       }
+            //       else
+            //       {
+            //             response.write("tournament name is" + " " + tournament.name);
+            //             response.end();
+            //             console.log("query success");
                        
-                  }
-                });
-            }
+            //       }
+            //     });
+            // }
         }
         else
         {

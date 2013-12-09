@@ -191,12 +191,28 @@ var guesses  = mongoose.model('guesses', guessesSchema);
      });
  };
  
+ //get questions of tournament
+ var getQuestionsOfTournament = function getQuestionsTournament (tournamentId, callback)
+ {
+     var query = tournaments.find({'_id' : tournamentId}).populate('questions');
+     query.exec(function(err, questions){
+        if (err)
+        {
+            callback(-1, err);
+        }
+        else
+        {
+            callback (questions, err);
+        }
+     });
+ };
+ 
  module.exports.saveNewUserToDb = saveNewUserToDb;
  module.exports.connect = connectToDb;
  module.exports.dropDb = dropDb;
  module.exports.saveQuestionToDb = saveQuestionToDb;
  module.exports.saveTournamentToDb = saveTournamentToDb;
-  module.exports.getTournamentFromDb = getTournamentFromDb;
+ module.exports.getTournamentFromDb = getTournamentFromDb;
 
 //  var kittySchema2 = mongoose.Schema({ name: String });
 //  var Kitten = mongoose.model('Kitten3', kittySchema2);
