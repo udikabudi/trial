@@ -165,10 +165,14 @@ my_http.createServer(function(request,response){
                   dbHelper.saveTournamentToDb(questions,usersEmails, "starters", function(id, error){
                       if (error)
                       {
+                           response.write("error saving tournament");
+                          response.end();
                           console.log("error saving tournament");
                       }
                       else
                       {
+                          response.write("tournament saved" + " " + id);
+                          response.end();
                           console.log("tournament saved" + " " + id);
                       }
                   } );
