@@ -1,64 +1,4 @@
-//create db - mongo db
-var mongoose = require('mongoose');
 
-var uristring =
-process.env.MONGOLAB_URI ||
-process.env.MONGOHQ_URL ||
-'mongodb://localhost/HelloMongoose';
-
-// Makes connection asynchronously.  Mongoose will queue up database
-// operations and release them when the connection is complete.
-mongoose.connect(uristring, function (err, res) {
-  if (err) {
-  console.log ('ERROR connecting to: ' + uristring + '. ' + err);
-  } else {
-  console.log ('Succeeded connected to: ' + uristring);
-  }
-});
-
-
-
-
- var kittySchema2 = mongoose.Schema({ name: String });
- var Kitten = mongoose.model('Kitten3', kittySchema2);
-      
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-//   db.once('open', function callback () {
-//       console.log('db is connected');
-//   });
-var saveToDb = function (name)
-{
-     console.log('trial started');
-  
-      var silence = new Kitten({ name: name });
-      silence.save(function (err,silence){
-         if (err)
-         {
-             console.log('error in saving silence');
-         }
-         else {
-             console.log('saved to db' + name);
-         }
-      });
-     
-      
-};
-
-var getFromDb = function (name)
-{
-     
-      (Kitten.find({name:name})).exec(function (err, kittens) {
-          if (err)
-          {
-              console.log('error finding silence');
-          }
-          else
-          {
-              console.log(kittens);
-          }
-      });
-}
 
 
 function processPost(request, response, callback) {
@@ -86,6 +26,101 @@ function processPost(request, response, callback) {
     }
 }
 
+var dbHelper = require("./totoDbHelper");
+dbHelper.connectToDb;
+//dbHelper.dropDb;
+
+function saveUsersToDb ()
+{
+    dbHelper.saveNewUserToDb("udi", "udizohar84@gmail.com", "1234", function(id,err){
+        if (err)
+        {
+            console.log("error saving user");
+        }
+  });
+  
+   dbHelper.saveNewUserToDb("tomer", "tomer@gmail.com", "1234", function(id,err){
+        if (err)
+        {
+            console.log("error saving user");
+        }
+  });
+  
+   dbHelper.saveNewUserToDb("arnon", "arnon@gmail.com", "1234", function(id,err){
+        if (err)
+        {
+            console.log("error saving user");
+        }
+  });
+  
+   dbHelper.saveNewUserToDb("tom", "tom@gmail.com", "1234", function(id,err){
+        if (err)
+        {
+            console.log("error saving user");
+        }
+  });
+  
+   dbHelper.saveNewUserToDb("john", "john@gmail.com", "1234", function(id,err){
+        if (err)
+        {
+            console.log("error saving user");
+        }
+  });
+}
+//saveUsersToDb();
+var question1 = "france:england";
+var question2 = "argentina:netherland";
+var question3 = "brazil:chile";
+function saveQuestionsToDb (callback)
+{
+    dbHelper.saveQuestionToDb(question1, "5:4", 3, function(id,err){
+        if (err)
+        {
+            console.log("error saving question" + question1 );
+        }
+        else
+        {
+             dbHelper.saveQuestionToDb(question2, "3:1", 3, function(id,err){
+                if (err)
+                {
+                    console.log("error saving question" + question2);
+                }
+                else
+                {
+                     dbHelper.saveQuestionToDb(question3, "2:2", 3, function(id,err){
+                        if (err)
+                        {
+                            console.log("error saving question" + question3);
+                        }
+                        else
+                        {
+                            callback();
+                        }
+                    });
+                }
+            });
+        }
+    });
+}
+
+// saveQuestionsToDb(function (){
+//   //save tournament
+//   //_questions, _usersEmails, _name, callback
+//   var questions = [question1, question2, question3]
+//   var usersEmails = ["udizohar84@gmail.com", "tomer@gmail.com", "arnon@gmail.com", "tom@gmail.com", "john@gmail.com" ];
+//   dbHelper.saveTournamentToDb(questions,usersEmails, "starters", function(id, error){
+//       if (error)
+//       {
+//           console.log("error saving tournament");
+//       }
+//       else
+//       {
+//           console.log("tournament saved" + " " + id);
+//       }
+//   } );
+// });
+
+
 
 var sys = require("sys"),  
 my_http = require("http"); 
@@ -94,11 +129,54 @@ var querystring = require('querystring');
 var num = 1;
 my_http.createServer(function(request,response){ 
     
-    console.log("called to my server")
-    response.write("Hello heruku again with db");
-         response.end();
-    saveToDb("udi");
-    
+    console.log("called to my server");
+   
+  
+         
+  if(request.method == 'POST') 
+  {
+       processPost(request, response, function() {
+            console.log(response.post);
+            console.log('got response');
+           
+
+            response.writeHead(200, "OK", {'Content-Type': 'text/plain'});
+            response.write("Hello World post" + response.post);
+            response.end();
+        });
+  }
+  else
+  {
+       var queryData;
+       response.writeHead(200, {"Content-Type": "text/html"});
+      // request.on('data', function(data) {
+        queryData = url.parse(request.url, true).query;
+        console.log("query is - " + queryData.d);
+        if (queryData.d !== undefined)
+        {
+          dbHelper.getTournamentFromDb(queryData.d, function (tournament,err){
+               if (err)
+               {
+                   response.write("cant get tournament" + " " + tournament);
+                   response.end();
+                   console.log("error in query");
+                   
+               }
+               else
+               {
+                    response.write("tournament name is" + " " + tournament.name);
+                    response.end();
+                    console.log("query success");
+                   
+               }
+            });
+        }
+      //  });
+
+        // request.on('end', function() {
+           
+        // });
+  }
  
     //  if(request.method == 'POST') {
     //     processPost(request, response, function() {
@@ -125,4 +203,4 @@ my_http.createServer(function(request,response){
     //     num++;
     // }
 }).listen(process.env.PORT);  
-sys.puts("Server Running on 8080");
+sys.puts("Server Running on" + process.env.PORT);
