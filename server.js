@@ -149,56 +149,62 @@ my_http.createServer(function(request,response){
   {
        var queryData;
        response.writeHead(200, {"Content-Type": "text/html"});
-      // request.on('data', function(data) {
-        queryData = url.parse(request.url, true).query;
-        console.log("query is - " + queryData.d);
-        if (queryData.d !== undefined)
-        {
-            if (queryData.d == "intialize")
-            {
-                saveUsersToDb();
-                saveQuestionsToDb(function (){
-                  //save tournament
-                  //_questions, _usersEmails, _name, callback
-                  var questions = [question1, question2, question3];
-                  var usersEmails = ["udizohar84@gmail.com", "tomer@gmail.com", "arnon@gmail.com", "tom@gmail.com", "john@gmail.com" ];
-                  dbHelper.saveTournamentToDb(questions,usersEmails, "starters", function(id, error){
-                      if (error)
-                      {
-                           response.write("error saving tournament");
-                          response.end();
-                          console.log("error saving tournament");
-                      }
-                      else
-                      {
-                          response.write("tournament saved" + " " + id);
-                          response.end();
-                          console.log("tournament saved" + " " + id);
-                      }
-                  } );
-                });
+       response.write("Hello World");
+       response.end();
+        // queryData = url.parse(request.url, true).query;
+        // console.log("query is - " + queryData.d);
+        // if (queryData.d !== undefined)
+        // {
+        //     if (queryData.d == "intialize")
+        //     {
+        //         saveUsersToDb();
+        //         saveQuestionsToDb(function (){
+        //           //save tournament
+        //           //_questions, _usersEmails, _name, callback
+        //           var questions = [question1, question2, question3];
+        //           var usersEmails = ["udizohar84@gmail.com", "tomer@gmail.com", "arnon@gmail.com", "tom@gmail.com", "john@gmail.com" ];
+        //           dbHelper.saveTournamentToDb(questions,usersEmails, "starters", function(id, error){
+        //               if (error)
+        //               {
+        //                   response.write("error saving tournament");
+        //                   response.end();
+        //                   console.log("error saving tournament");
+        //               }
+        //               else
+        //               {
+        //                   response.write("tournament saved" + " " + id);
+        //                   response.end();
+        //                   console.log("tournament saved" + " " + id);
+        //               }
+        //           } );
+        //         });
 
-            }
-            else
-            {
-              dbHelper.getTournamentFromDb(queryData.d, function (tournament,err){
-                   if (err)
-                   {
-                       response.write("cant get tournament" + " " + tournament);
-                       response.end();
-                       console.log("error in query");
+        //     }
+        //     else
+        //     {
+        //       dbHelper.getTournamentFromDb(queryData.d, function (tournament,err){
+        //           if (err)
+        //           {
+        //               response.write("cant get tournament" + " " + tournament);
+        //               response.end();
+        //               console.log("error in query");
                        
-                   }
-                   else
-                   {
-                        response.write("tournament name is" + " " + tournament.name);
-                        response.end();
-                        console.log("query success");
+        //           }
+        //           else
+        //           {
+        //                 response.write("tournament name is" + " " + tournament.name);
+        //                 response.end();
+        //                 console.log("query success");
                        
-                   }
-                });
-            }
-        }
+        //           }
+        //         });
+        //     }
+        // }
+        // else
+        // {
+        //     response.write("request undefined");
+        //     response.end();
+        // }
       //  });
 
         // request.on('end', function() {
