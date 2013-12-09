@@ -121,7 +121,7 @@ function saveQuestionsToDb (callback)
 // });
 
 
-var parser = require("./totParser.js");
+var parser = require("./totoParser.js");
 var sys = require("sys"),  
 my_http = require("http"); 
 var url = require('url') ;
@@ -156,7 +156,7 @@ my_http.createServer(function(request,response){
         if (queryData.d !== undefined)
         {
             parser.parse(queryData.d, function(responseData){
-                var responseDataStr = var myJSONText = JSON.stringify(responseData);
+                var responseDataStr = JSON.stringify(responseData);
                 response.write(responseDataStr);
                 response.end();
                 console.log("response sent from get" + " " + responseData.ok);

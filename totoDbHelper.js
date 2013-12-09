@@ -1,11 +1,11 @@
 var mongoose = require('mongoose');
 
-var uristring =
-process.env.MONGOLAB_URI ||
-process.env.MONGOHQ_URL ||
-'mongodb://localhost/HelloMongoose';
+// var uristring =
+// process.env.MONGOLAB_URI ||
+// process.env.MONGOHQ_URL ||
+// 'mongodb://localhost/HelloMongoose';
 
-//var uristring = 'mongodb://localhost/totoDb';
+var uristring = 'mongodb://localhost/totoDb';
 
 // Makes connection asynchronously.  Mongoose will queue up database
 // operations and release them when the connection is complete.
