@@ -1,7 +1,7 @@
 {
   "name": "chat-example",
   "version": "0.0.1",
-  "description": "A chat example to showcase how to use `socket.io` with a static `express` server",
+  "description": "bet with friends",
   "main": "server.js",
   "repository": "",
   "author": "Mostafa Eweda <mostafa@c9.io>",
@@ -11,8 +11,5 @@
     "socket.io": "~0.9.14",
     "mongoose": "3.8.1",
    
-  }
-  "engines": {
-    "node": "0.10.x"
-  }
+ 
 }
